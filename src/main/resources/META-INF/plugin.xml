@@ -1,0 +1,54 @@
+<idea-plugin>
+    <id>org.designite.intellij.plugin</id>
+    <name>DesigniteJava</name>
+    <vendor email="contact@designite-tools.com" url="http://www.designite-tools.com">Designite</vendor>
+    <version>1.8.1</version>
+    <idea-version since-build="192"/>
+    <depends>com.intellij.modules.java</depends>
+
+    <description><![CDATA[
+    <p>The plugin analyzes your Java projects and identifies code smells at implementation, design, and architecture
+granularity. It also computes common code quality metrics to measure complexity, cohesion, and coupling.</p>
+
+    <p>The plugin tags methods and classes within IntelliJ suffering from smells to motivate
+    you to refactor the method or class.
+    Also, the plugin shows a tool window that lists code quality
+    information (i.e., smells and metrics) of the active file to keep an eye on the code quality.</p>
+
+    <p>The plugin uses <a href="http://www.designite-tools.com/designitejava">DesigniteJava</a> to analyze
+    Java source code.</p>
+    ]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_staxzrted/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products-->
+    <depends>com.intellij.modules.lang</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider language="" implementationClass="designite.lineMarkerProvider.LineMarker"/>
+        <toolWindow id="DesigniteJava" secondary="true" anchor="bottom"
+                    factoryClass="designite.ui.toolWindow.ToolWindowFactory" icon="/Images/designite_icon_16.png"/>
+    </extensions>
+
+    <actions>
+        <group id="Designite.MainMenu" class="designite.ui.DesigniteMenu" text="_Designite" popup="true" icon="/Images/designite_icon_16.png">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <!--            <action id="Designite.RunMenuItem" class="designite.ui.DesigniteMenuAnalyze" />-->
+            <!--            <action id="Designite.Settings" class="designite.ui.DesigniteMenuSettings"/>-->
+        </group>
+<!--        <group>-->
+<!--            <action id="Designite.ClassInfoMenu" class="designite.ui.toolWindow.ClassInfoMenu"-->
+<!--                    text="Get class info ..." description="Shows metrics and smells in the class"/>-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+<!--        </group>-->
+    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="designite.projectOpenActions.ProjectOpenListener"/>
+    </extensions>
+<!--    <project-components>-->
+<!--        <component>-->
+<!--            <implementation-class>designite.projectOpenActions.ProjectOpenListener</implementation-class>-->
+<!--        </component>-->
+<!--    </project-components>-->
+</idea-plugin>
+
+

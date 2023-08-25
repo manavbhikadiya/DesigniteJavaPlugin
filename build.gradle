@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.7.3'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+group = 'org.designite.intellij.plugin'
+version = '1.8.1'
+description = """
+The plugin analyzes your Java projects and identifies code smells at implementation, design, and architecture granularity. It also computes common code quality metrics to measure complexity, cohesion, and coupling.
+
+The plugin tags methods and classes within IntelliJ suffering from smells to motivate you to refactor the method or class. Also, the plugin shows a tool window that lists code quality information (i.e., smells and metrics) of the active file to keep an eye on the code quality.
+"""
+
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation 'org.mockito:mockito-inline:3.12.4'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
+    implementation 'org.knowm.xchart:xchart:3.6.3'
+}
+
+jar {
+    from configurations.implementation
+}
+
+configurations {
+    implementation {
+        canBeResolved = true
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.runtimeClasspath]
+    includeEmptyDirs = false
+    mergeServiceFiles()
+    relocate('org.knowm.xchart', 'lib.xchart')
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version '2019.1.3'
+    updateSinceUntilBuild false
+//    plugins 'java'
+}
+patchPluginXml {
+//        sinceBuild '191'
+//        untilBuild '192'
+    changeNotes """
+- Usability improvements
+- Bug fixes (including the issue with the plugin not showing code quality information and markers when multiple instances of IntelliJ are open)
+"""
+}
+wrapper{
+    gradleVersion = '2.0'
+}
