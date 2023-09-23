@@ -32,9 +32,6 @@ unit-test-job:   # This job runs in the test stage.
   script:
     - gradle test
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
-
 code_quality:
   stage: code-quality
   image: openjdk:17
